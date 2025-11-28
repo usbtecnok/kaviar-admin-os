@@ -1,4 +1,3 @@
-// src/services/motorista.ts
 import axios from 'axios';
 import { getToken } from './auth';
 
@@ -8,9 +7,15 @@ const API_BASE_URL = 'https://kaviar-backend.onrender.com/api/v1';
 
 export interface MotoristaData {
     nome: string;
+    cpf: string;
+    email: string;
+    telefone: string;
     cnh: string;
+    cnh_vencimento: string;
     placa_veiculo: string;
     modelo_veiculo: string;
+    cor_veiculo: string;
+    ano_veiculo: string;
 }
 
 export interface MotoristaResponse extends MotoristaData {

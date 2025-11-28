@@ -5,9 +5,15 @@ import { createMotorista, MotoristaData } from '@/services/motorista';
 
 const initialData: MotoristaData = {
     nome: '',
-    cnh: '',
+    cpf: '',
+    email: '',
+    telefone: '',
+    cnh: '', 
+    cnh_vencimento: '',
     placa_veiculo: '',
     modelo_veiculo: '',
+    cor_veiculo: '',
+    ano_veiculo: ''
 };
 
 const MotoristaCreationForm: React.FC = () => {
@@ -16,69 +22,79 @@ const MotoristaCreationForm: React.FC = () => {
     const [loading, setLoading] = useState(false);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const { name, value } = e.target;
-        setFormData(prev => ({ ...prev, [name]: value }));
+        setFormData({
+            ...formData,
+            [e.target.name]: e.target.value
+        });
     };
 
-    const handleSubmit = async (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        setStatusMessage({ type: '', message: '' });
         setLoading(true);
+        setStatusMessage({ type: '', message: '' });
 
         try {
-            const response = await createMotorista(formData);
-            
-            setStatusMessage({ type: 'success', message: `Motorista ${response.nome} (CNH: ${response.cnh}) cadastrado com sucesso!` });
+            await createMotorista(formData);
+            setStatusMessage({ type: 'success', message: 'Motorista criado com sucesso!' });
             setFormData(initialData);
-            
-        } catch (error: any) {
-            setStatusMessage({ type: 'error', message: error.message || 'Erro desconhecido ao cadastrar motorista.' });
+        } catch (err: any) {
+            setStatusMessage({ type: 'error', message: 'Erro ao criar motorista.' });
         } finally {
             setLoading(false);
         }
     };
 
-    const inputStyle: React.CSSProperties = { padding: '10px', margin: '5px 0', width: '100%', boxSizing: 'border-box' };
-    const btnStyle: React.CSSProperties = { padding: '8px 15px', border: 'none', borderRadius: '4px', cursor: 'pointer', fontWeight: 'bold' };
-    const containerStyle: React.CSSProperties = { backgroundColor: 'white', padding: '25px', borderRadius: '8px', boxShadow: '0 2px 4px rgba(0,0,0,0.05)' };
-
     return (
-        <div style={containerStyle}>
-            <h2>Cadastrar Novo Motorista</h2>
-            
+        <form onSubmit={handleSubmit}>
+            <label>
+                Nome:
+                <input name="nome" value={formData.nome} onChange={handleChange} required />
+            </label>
+            <label>
+                CPF:
+                <input name="cpf" value={formData.cpf} onChange={handleChange} required />
+            </label>
+            <label>
+                E-mail:
+                <input name="email" type="email" value={formData.email} onChange={handleChange} required />
+            </label>
+            <label>
+                Telefone:
+                <input name="telefone" value={formData.telefone} onChange={handleChange} required />
+            </label>
+            <label>
+                CNH:
+                <input name="cnh" value={formData.cnh} onChange={handleChange} required />
+            </label>
+            <label>
+                Vencimento da CNH:
+                <input name="cnh_vencimento" type="date" value={formData.cnh_vencimento} onChange={handleChange} required />
+            </label>
+            <label>
+                Placa do Veículo:
+                <input name="placa_veiculo" value={formData.placa_veiculo} onChange={handleChange} required />
+            </label>
+            <label>
+                Modelo do Veículo:
+                <input name="modelo_veiculo" value={formData.modelo_veiculo} onChange={handleChange} required />
+            </label>
+            <label>
+                Cor do Veículo:
+                <input name="cor_veiculo" value={formData.cor_veiculo} onChange={handleChange} required />
+            </label>
+            <label>
+                Ano do Veículo:
+                <input name="ano_veiculo" value={formData.ano_veiculo} onChange={handleChange} required />
+            </label>
+            <button type="submit" disabled={loading}>
+                {loading ? 'Criando...' : 'Criar Motorista'}
+            </button>
             {statusMessage.message && (
-                <div style={{ padding: '10px', borderRadius: '4px', marginBottom: '20px', backgroundColor: statusMessage.type === 'success' ? '#d4edda' : '#f8d7da', color: statusMessage.type === 'success' ? '#155724' : '#721c24' }}>
+                <div className={statusMessage.type}>
                     {statusMessage.message}
                 </div>
             )}
-
-            <form onSubmit={handleSubmit}>
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
-                    <div>
-                        <label htmlFor="nome">Nome Completo</label>
-                        <input type="text" id="nome" name="nome" value={formData.nome} onChange={handleChange} required style={inputStyle} />
-                    </div>
-                    <div>
-                        <label htmlFor="cnh">CNH</label>
-                        <input type="text" id="cnh" name="cnh" value={formData.cnh} onChange={handleChange} required style={inputStyle} />
-                    </div>
-                    <div>
-                        <label htmlFor="placa_veiculo">Placa do Veículo</label>
-                        <input type="text" id="placa_veiculo" name="placa_veiculo" value={formData.placa_veiculo} onChange={handleChange} required style={inputStyle} />
-                    </div>
-                    <div>
-                        <label htmlFor="modelo_veiculo">Modelo do Veículo</label>
-                        <input type="text" id="modelo_veiculo" name="modelo_veiculo" value={formData.modelo_veiculo} onChange={handleChange} required style={inputStyle} />
-                    </div>
-                </div>
-
-                <div style={{ marginTop: '20px' }}>
-                    <button type="submit" disabled={loading} style={{ ...btnStyle, backgroundColor: loading ? '#28a74599' : '#28a745', color: 'white' }}>
-                        {loading ? 'Cadastrando...' : 'Cadastrar Motorista'}
-                    </button>
-                </div>
-            </form>
-        </div>
+        </form>
     );
 };
 
