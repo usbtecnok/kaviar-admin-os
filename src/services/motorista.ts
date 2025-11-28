@@ -1,29 +1,38 @@
 import axios from 'axios';
 import { getToken } from './auth';
 
-const API_BASE_URL = 'https://kaviar-backend.onrender.com/api/v1';
+// Certifica-se de que a URL base da API é puxada da variável de ambiente no Render/Next.js
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'https://kaviar-backend.onrender.com/api/v1';
 
-// --- Interfaces ---
+// --- Interfaces Corrigidas ---
 
 export interface MotoristaData {
+    // Campos Pessoais
     nome: string;
     cpf: string;
     email: string;
     telefone: string;
-    cnh: string;
-    cnh_vencimento: string;
-    placa_veiculo: string;
-    modelo_veiculo: string;
-    cor_veiculo: string;
-    ano_veiculo: string;
+    
+    chave_pix: string; // NOVO CAMPO PIX
+    
+    // Campos de Documentação (NOMENCLATURA CORRIGIDA)
+    cnh_numero: string; 
+    cnh_vencimento: string; 
+    
+    // Campos de Veículo (NOMENCLATURA CORRIGIDA)
+    placa: string; 
+    modelo: string; 
+    cor: string; 
+    ano: number; 
 }
 
 export interface MotoristaResponse extends MotoristaData {
     id: number;
-    is_ativo: boolean;
+    status: string; 
+    status_aprovacao: string; 
 }
 
-// --- Funções Auxiliares ---
+// --- Funções Auxiliares (Sem Mudança) ---
 function getAuthHeaders() {
     const token = getToken();
     if (!token) {
@@ -35,7 +44,7 @@ function getAuthHeaders() {
 // --- Funções CRUD ---
 
 export async function createMotorista(data: MotoristaData): Promise<MotoristaResponse> {
-    const url = `${API_BASE_URL}/motoristas/`;
+    const url = `${API_BASE_URL}/motoristas`;
     try {
         const response = await axios.post<MotoristaResponse>(url, data, {
             headers: getAuthHeaders(),
@@ -59,7 +68,7 @@ export async function createMotorista(data: MotoristaData): Promise<MotoristaRes
 }
 
 export async function listMotoristas(): Promise<MotoristaResponse[]> {
-    const url = `${API_BASE_URL}/motoristas/`;
+    const url = `${API_BASE_URL}/motoristas`;
     try {
         const response = await axios.get<MotoristaResponse[]>(url, {
             headers: getAuthHeaders(),

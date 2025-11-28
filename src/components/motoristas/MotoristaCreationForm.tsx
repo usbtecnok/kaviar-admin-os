@@ -1,3 +1,5 @@
+"use client"; // <--- CORREÇÃO CRÍTICA DO NEXT.JS
+
 import React, { useState } from 'react';
 import { createMotorista } from '../../services/motorista';
 import { MotoristaData } from '../../services/motorista';
