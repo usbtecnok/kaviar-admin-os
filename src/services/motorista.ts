@@ -36,3 +36,4 @@ export async function rejeitarMotorista(id: number) {
   const res = await api.patch(`/api/v1/motoristas/${id}/rejeitar`);
   return res.data;
 }
+
