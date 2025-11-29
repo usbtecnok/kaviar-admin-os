@@ -13,6 +13,17 @@ export interface MotoristaResponse {
   status_aprovacao?: string;
 }
 
+export interface MotoristaData {
+  nome: string;
+  cpf: string;
+  email: string;
+  telefone: string;
+  cnh_numero: string;
+  placa: string;
+  chave_pix: string;
+  senha: string;
+}
+
 // LISTA MOTORISTAS
 export async function listMotoristas(): Promise<MotoristaResponse[]> {
   const res = await api.get("/api/v1/motoristas");
@@ -20,7 +31,7 @@ export async function listMotoristas(): Promise<MotoristaResponse[]> {
 }
 
 // CRIA MOTORISTA
-export async function createMotorista(data: any) {
+export async function createMotorista(data: MotoristaData) {
   const res = await api.post("/api/v1/motoristas", data);
   return res.data;
 }
