@@ -13,13 +13,13 @@ export interface MotoristaData {
     email: string;
     telefone: string;
     
-    chave_pix: string; // NOVO CAMPO PIX
+    chave_pix: string; 
     
-    // Campos de Documentação (NOMENCLATURA CORRIGIDA)
+    // Campos de Documentação 
     cnh_numero: string; 
     cnh_vencimento: string; 
     
-    // Campos de Veículo (NOMENCLATURA CORRIGIDA)
+    // Campos de Veículo 
     placa: string; 
     modelo: string; 
     cor: string; 
@@ -30,6 +30,7 @@ export interface MotoristaResponse extends MotoristaData {
     id: number;
     status: string; 
     status_aprovacao: string; 
+    created_at?: string; 
 }
 
 // --- Funções Auxiliares (Sem Mudança) ---
@@ -44,7 +45,7 @@ function getAuthHeaders() {
 // --- Funções CRUD ---
 
 export async function createMotorista(data: MotoristaData): Promise<MotoristaResponse> {
-    const url = `${API_BASE_URL}/motoristas`;
+    const url = `${API_BASE_URL}/motoristas`; // CORRIGIDO: Removida a barra final, o backend não a espera
     try {
         const response = await axios.post<MotoristaResponse>(url, data, {
             headers: getAuthHeaders(),
@@ -68,7 +69,7 @@ export async function createMotorista(data: MotoristaData): Promise<MotoristaRes
 }
 
 export async function listMotoristas(): Promise<MotoristaResponse[]> {
-    const url = `${API_BASE_URL}/motoristas`;
+    const url = `${API_BASE_URL}/motoristas`; // CORRIGIDO: Removida a barra final na listagem
     try {
         const response = await axios.get<MotoristaResponse[]>(url, {
             headers: getAuthHeaders(),
