@@ -1,22 +1,29 @@
 import api from "./api";
 
+/**
+ * Dados retornados pelo backend
+ */
 export interface MotoristaResponse {
   id: number;
   nome: string;
-  cpf?: string;
-  email?: string;
-  telefone?: string;
-  cnh_numero?: string;
-  cnh_vencimento?: string;
-  modelo?: string;
-  cor?: string;
-  ano?: number;
-  placa?: string;
-  chave_pix?: string;
+  cpf: string;
+  email: string;
+  telefone: string;
+  cnh_numero: string;
+  cnh_vencimento: string;
+  chave_pix: string;
+  placa: string;
+  modelo: string;
+  cor: string;
+  ano: number;
   status?: string;
   status_aprovacao?: string;
 }
 
+/**
+ * Dados enviados ao backend (cadastro)
+ * Não inclui ID
+ */
 export interface MotoristaData {
   nome: string;
   cpf: string;
@@ -24,12 +31,12 @@ export interface MotoristaData {
   telefone: string;
   cnh_numero: string;
   cnh_vencimento: string;
+  chave_pix: string;
   placa: string;
   modelo: string;
   cor: string;
   ano: number;
-  chave_pix: string;
-  senha: string;
+  senha: string;  // motorista precisa de senha para login
 }
 
 // LISTA MOTORISTAS
