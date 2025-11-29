@@ -7,6 +7,9 @@ export interface MotoristaResponse {
   email?: string;
   telefone?: string;
   cnh_numero?: string;
+  cnh_vencimento?: string;
+  modelo?: string;
+  cor?: string;
   placa?: string;
   chave_pix?: string;
   status?: string;
@@ -19,7 +22,10 @@ export interface MotoristaData {
   email: string;
   telefone: string;
   cnh_numero: string;
+  cnh_vencimento: string;   // ADICIONADO
   placa: string;
+  modelo: string;           // ADICIONADO
+  cor: string;              // ADICIONADO
   chave_pix: string;
   senha: string;
 }
